@@ -5,7 +5,7 @@
   padding: 2rem;
   width: 33.33%; 
   border-radius: 0.5rem;
-  max-width: 60%; /* Prevents the text from stretching across the whole image */
+  max-width: 60%;
   flex-shrink: 0; 
 }
 

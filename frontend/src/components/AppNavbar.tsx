@@ -4,7 +4,6 @@ import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-// It's good practice to type the component, React.FC stands for "Function Component"
 const AppNavbar: React.FC = () => {
   return (
 

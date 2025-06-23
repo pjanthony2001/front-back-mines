@@ -1,42 +1,22 @@
 // src/pages/ActivitiesPage.tsx
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Badge } from 'react-bootstrap';
 import { CalendarEvent, Clock, GeoAlt } from 'react-bootstrap-icons';
 import AppNavbar from '../components/AppNavbar';
 import Footer from '../components/Footer';
+import { BACKEND_URL } from '../config'; // Import the constant
 
-// --- DATA: You can easily update your events here ---
-const upcomingEvents = [
-  {
-    title: 'Welcome Week Campus Tour',
-    category: 'Social',
-    date: 'September 5, 2024',
-    time: '2:00 PM - 4:00 PM',
-    location: 'Meet at Student Union Entrance',
-    description: 'New to campus? Join us for a comprehensive tour where we show you all the essential spots, from the library to the best coffee shop!',
-    image: '/mines-tour.jpg',
-  },
-  {
-    title: 'Visa Renewal Workshop',
-    category: 'Admin Support',
-    date: 'September 12, 2024',
-    time: '5:00 PM - 6:30 PM',
-    location: 'Room 301, Admin Building',
-    description: 'Get expert guidance on the visa renewal process. We will cover all the required documents and answer your questions in a Q&A session.',
-    image: '/visa-workshop.webp',
-  },
-  {
-    title: 'International Food Festival',
-    category: 'Cultural',
-    date: 'September 20, 2024',
-    time: '6:00 PM onwards',
-    location: 'Main University Lawn',
-    description: 'Share a dish from your home country and taste flavors from around the world! A fantastic opportunity to meet new friends and celebrate our diversity.',
-    image: '/ian-dumplings.jpg',
-  },
-];
 
+interface Event {
+  title: string;
+  category: string;
+  date: string;
+  time: string;
+  location: string;
+  description: string;
+  image: string;
+}
 
 const Activities: React.FC = () => {
   const getBadgeVariant = (category: string) => {
@@ -47,6 +27,23 @@ const Activities: React.FC = () => {
       default: return 'primary';
     }
   };
+
+  
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/events`);
+        const data: Event[] = await response.json();
+        setEvents(data);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   return (
     <>
@@ -67,7 +64,7 @@ const Activities: React.FC = () => {
           </Col>
         </Row>
         <Row>
-          {upcomingEvents.map((event) => (
+          {events.map((event) => (
             <Col md={4} key={event.title} className="mb-4 d-flex align-items-stretch">
               <Card className="shadow-sm w-100">
                 <Card.Img variant="top" src={event.image} />

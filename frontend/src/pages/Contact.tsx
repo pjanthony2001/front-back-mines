@@ -5,6 +5,7 @@ import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { Envelope, Telephone, GeoAlt, Clock } from 'react-bootstrap-icons';
 import AppNavbar from '../components/AppNavbar';
 import Footer from '../components/Footer';
+import { BACKEND_URL } from '../config'; // Import the constant
 
 const Contact: React.FC = () => {
   // state for form data
@@ -24,13 +25,29 @@ const Contact: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Connect to backend
-    console.log('Form data submitted:', formData);
-    alert('Thank you for your message! We will get back to you soon.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    try {
+      // Use a relative path here as well.
+      const response = await fetch(`${BACKEND_URL}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      console.log("Response from server:", response);
+      if (!response.ok) {
+        console.error("Network response was not ok:", response.statusText);
+        throw new Error('Network response was not ok');
+      }
+
+      alert('Thank you for your message! We will get back to you soon.');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error("Failed to submit contact form:", error);
+      alert('There was an error submitting your message. Please try again later.');}
   };
+
+
 
   return (
     <>
