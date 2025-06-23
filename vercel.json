@@ -1,12 +1,25 @@
 {
   "version": 2,
   "builds": [
-    { "src": "backend/Cargo.toml", "use": "@vercel/rust" },
-    { "src": "frontend/package.json", "use": "@vercel/static-build" }
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "backend/src/main.rs" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/frontend/index.html" }
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/src/main.rs"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/index.html"
+    }
   ]
 }
