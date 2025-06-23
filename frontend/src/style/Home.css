@@ -1,0 +1,18 @@
+/* src/pages/Home.css */
+
+.overlay-content {
+  background-color: rgba(0, 0, 0, 0.65); /* Semi-transparent black background */
+  padding: 2rem;
+  width: 33.33%; 
+  border-radius: 0.5rem;
+  max-width: 60%; /* Prevents the text from stretching across the whole image */
+  flex-shrink: 0; 
+}
+
+/* On smaller screens, make the overlay content take more width */
+@media (max-width: 768px) {
+  .overlay-content {
+    max-width: 90%;
+    padding: 1.5rem;
+  }
+}
