@@ -49,12 +49,21 @@ async fn main() {
     axum::serve(listener, app).await.unwrap();
 }
 
+// Vercel Handler
+pub async fn vercel_handler() -> Router {
+    Router::new()
+        .route("/", get(root))
+        .route("/api/events", get(get_events_handler))
+        .route("/api/contact", post(contact_form_handler))
+}
+
+
+// --- Route Handlers ---
+
 // basic handler that responds with a static string
 async fn root() -> &'static str {
     "Hello, World!"
 }
-
-// --- Route Handlers ---
 
 async fn get_events_handler() -> Json<Vec<Event>> {
     
